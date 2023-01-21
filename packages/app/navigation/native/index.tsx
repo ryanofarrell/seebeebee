@@ -2,32 +2,32 @@ import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import { HomeScreen } from '../../features/home/screen'
-import { UserDetailScreen } from '../../features/user/detail-screen'
+import { TeamDetailScreen } from '../../features/team/team-screen'
 
-const Stack = createNativeStackNavigator<{
+const HomeStack = createNativeStackNavigator<{
   home: undefined
-  'user-detail': {
+  'team': {
     id: string
   }
 }>()
 
 export function NativeNavigation() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen
+    <HomeStack.Navigator>
+      <HomeStack.Screen
         name="home"
         component={HomeScreen}
         options={{
           title: 'Home',
         }}
       />
-      <Stack.Screen
-        name="user-detail"
-        component={UserDetailScreen}
+      <HomeStack.Screen
+        name="team"
+        component={TeamDetailScreen}
         options={{
-          title: 'User',
+          title: 'Team',
         }}
       />
-    </Stack.Navigator>
+    </HomeStack.Navigator>
   )
 }
