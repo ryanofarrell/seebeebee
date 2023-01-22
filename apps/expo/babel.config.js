@@ -5,7 +5,6 @@ module.exports = function (api) {
     plugins: [
       [
         require.resolve('babel-plugin-module-resolver'),
-
         {
           root: ['../..'],
           alias: {
@@ -16,8 +15,6 @@ module.exports = function (api) {
           extensions: ['.js', '.jsx', '.tsx', '.ios.js', '.android.js'],
         },
       ],
-      require.resolve("expo-router/babel"),
-
       // if you want reanimated support
       // 'react-native-reanimated/plugin',
       ...(process.env.EAS_BUILD_PLATFORM === 'android'

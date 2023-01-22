@@ -2,12 +2,6 @@
 const { withTamagui } = require('@tamagui/next-plugin')
 const withImages = require('next-images')
 const { join } = require('path')
-const { withExpo } = require('@expo/next-adapter')
-const withPlugins = require('next-compose-plugins')
-const withTM = require('next-transpile-modules')([
-  'solito',
-  'app',
-])
 
 process.env.IGNORE_TS_CONFIG_PATHS = 'true'
 process.env.TAMAGUI_TARGET = 'web'
@@ -48,7 +42,6 @@ Remove this log in next.config.js.
 
 const plugins = [
   withImages,
-  withExpo,
   withTamagui({
     config: './tamagui.config.ts',
     components: ['tamagui', '@my/ui'],
@@ -64,7 +57,6 @@ const plugins = [
     },
     excludeReactNativeWebExports: ['Switch', 'ProgressBar', 'Picker', 'CheckBox', 'Touchable'],
   }),
-  withTM,
 ]
 
 module.exports = function () {
@@ -75,6 +67,12 @@ module.exports = function () {
     },
     images: {
       disableStaticImages: true,
+    },
+    modularizeImports: {
+      '@tamagui/lucide-icons': {
+        transform: `@tamagui/lucide-icons/dist/esm/icons/{{kebabCase member}}`,
+        skipDefaultConversion: true,
+      },
     },
     transpilePackages: [
       'solito',

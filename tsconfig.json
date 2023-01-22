@@ -1,39 +1,11 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "strictNullChecks": true,
+    "noUncheckedIndexedAccess": true,
     "paths": {
-      "app/*": [
-        "./packages/app/*"
-      ],
-      "@my/ui/*": [
-        "./packages/ui/*"
-      ]
-    },
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx"
+      "app/*": ["./packages/app/*"],
+      "@my/ui/*": ["./packages/ui/*"]
+    }
   },
-  "include": [
-    "packages/app",
-    "apps"
-  ],
-  "exclude": [
-    "node_modules"
-    // "*/tamagui.config.d.ts"
-  ]
+  "extends": "expo/tsconfig.base"
 }
