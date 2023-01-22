@@ -16,4 +16,6 @@ config.resolver.nodeModulesPaths = [
   path.resolve(workspaceRoot, 'node_modules'),
 ]
 
+config.transformer.unstable_allowRequireContext = true
+
 module.exports = config

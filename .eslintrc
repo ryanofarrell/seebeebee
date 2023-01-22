@@ -1,0 +1,64 @@
+{
+    "extends": [
+        "airbnb-typescript",
+        "airbnb/hooks",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:jest/recommended",
+        // "plugin:import/recommended",
+        "plugin:prettier/recommended"
+        // "plugin:import/parsers"
+    ],
+    "plugins": [
+        "react",
+        "@typescript-eslint",
+        "jest",
+        "import"
+    ],
+    "env": {
+        "browser": true,
+        "es6": true,
+        "jest": true
+    },
+    "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly"
+    },
+    "parser": "@typescript-eslint/parser",
+    "settings": {
+        "import/parsers": {
+            "@typescript-eslint/parser": [
+                ".ts",
+                ".tsx"
+            ]
+        },
+        "import/resolver": {
+            // use <root>/tsconfig.json
+            "typescript": {
+                "alwaysTryTypes": true // always try to resolve types under `<root>@types` directory even it doesn't contain any source code, like `@types/unist`
+            }
+        },
+        "next":
+        {
+            "rootDir": "./apps/next"
+        }
+    },
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 2018,
+        "sourceType": "module",
+        "project": "./tsconfig.json"
+    },
+    "rules": {
+        "linebreak-style": "off",
+        "prettier/prettier": [
+            "error",
+            {
+                "endOfLine": "auto"
+            }
+        ],
+        "import/no-unresolved": "error",
+        "no-html-link-for-pages": "error"
+    }
+}
