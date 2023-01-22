@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import { HomeScreen } from '../../features/home/screen'
-import { UserDetailScreen } from '../../features/user/detail-screen'
+import { TeamDetailScreen } from '../../features/team/detail-screen'
 
 const Stack = createNativeStackNavigator<{
   home: undefined
+  team: { id: string }
   'user-detail': {
     id: string
   }
@@ -22,10 +23,10 @@ export function NativeNavigation() {
         }}
       />
       <Stack.Screen
-        name="user-detail"
-        component={UserDetailScreen}
+        name="team"
+        component={TeamDetailScreen}
         options={{
-          title: 'User',
+          title: 'Team',
         }}
       />
     </Stack.Navigator>
