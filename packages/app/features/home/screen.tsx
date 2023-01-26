@@ -1,82 +1,108 @@
-import { Anchor, Button, H1, Input, Paragraph, Separator, Sheet, XStack, YStack } from '@my/ui'
+import { Anchor, Button, H1, Paragraph, Separator, Sheet, XStack, YStack } from '@my/ui'
 import { ChevronDown, ChevronUp } from '@tamagui/lucide-icons'
-import React, { useState } from 'react'
-import { useLink } from 'solito/link'
+import React, { useEffect, useState } from 'react'
+import { useRouter } from 'solito/router'
+import useDebouncedEffect from 'use-debounced-effect'
+import { getRecordsAsync } from '../../firebase/crud'
+import { where } from 'firebase/firestore'
+import { Input, Spinner } from 'tamagui'
 
 export function HomeScreen() {
-  const linkProps = useLink({
-    href: '/florida',
-  })
+  const { push, replace, back, parseNextPath } = useRouter()
 
-  return (
-    <YStack f={1} jc="center" ai="center" p="$4" space>
-      <YStack space="$4" maw={600}>
-        <H1 ta="center">Welcome to Tamagui.</H1>
-        <Paragraph ta="center">
-          Here's a basic starter to show navigating from one screen to another. This screen uses the
-          same code on Next.js and React Native.
-        </Paragraph>
+  // Store search results in state
+  const [searchResults, setSearchResults] = useState({})
+  // Store search query in state
+  const [searchQuery, setSearchQuery] = useState('')
+  const [loading, setLoading] = useState(false)
+  const searchQueryNormalized = searchQuery.toLowerCase().replace(/[^a-z]/g, '')
 
-        <Separator />
-        <Paragraph ta="center">
-          Made by{' '}
-          <Anchor color="$color12" href="https://twitter.com/natebirdman" target="_blank">
-            @natebirdman
-          </Anchor>
-          ,{' '}
-          <Anchor
-            color="$color12"
-            href="https://github.com/tamagui/tamagui"
-            target="_blank"
-            rel="noreferrer"
-          >
-            give it a ⭐️
-          </Anchor>
-        </Paragraph>
-      </YStack>
+  // Debounce the search query, then fetch results from database
+  useDebouncedEffect(
+    () => {
+      // Convert search query to only lowercase alphabetical characters
 
-      <XStack>
-        <Button {...linkProps}>Link to user</Button>
-      </XStack>
+      if (searchQueryNormalized.length < 3) {
+        setSearchResults([])
+        setLoading(false)
+        return
+      }
 
-      <SheetDemo />
-    </YStack>
+      const res1 = getRecordsAsync({
+        coll: 'teams',
+        q: [where('team_name_spellings', 'array-contains', searchQueryNormalized)],
+      })
+      const res2 = getRecordsAsync({
+        coll: 'teams',
+        q: [
+          where('lower_alpha', '>=', searchQueryNormalized),
+          where('lower_alpha', '<', searchQueryNormalized + 'z'),
+        ],
+      })
+
+      // Resolve all promises then combine results
+      Promise.all([res1, res2]).then(([r1, r2]) => {
+        const results = [...r1.out, ...r2.out]
+        const outObj = {}
+        results.forEach((r) => {
+          outObj[r.id] = r
+        })
+        console.log(outObj)
+        setLoading(false)
+        setSearchResults(outObj)
+      })
+    },
+    500,
+    [searchQueryNormalized]
   )
-}
 
-function SheetDemo() {
-  const [open, setOpen] = useState(false)
-  const [position, setPosition] = useState(0)
+  // Set loading every time search query changes
+  useEffect(() => {
+    if (searchQueryNormalized.length >= 3) {
+      setLoading(true)
+      return
+    }
+  }, [searchQueryNormalized])
+
   return (
-    <>
-      <Button
-        size="$6"
-        icon={open ? ChevronDown : ChevronUp}
-        circular
-        onPress={() => setOpen((x) => !x)}
-      />
-      <Sheet
-        modal
-        open={open}
-        onOpenChange={setOpen}
-        snapPoints={[80]}
-        position={position}
-        onPositionChange={setPosition}
-        dismissOnSnapToBottom
-      >
-        <Sheet.Overlay />
-        <Sheet.Frame ai="center" jc="center">
-          <Sheet.Handle />
-          <Button
-            size="$6"
-            circular
-            icon={ChevronDown}
-            onPress={() => {
-              setOpen(false)
-            }}
-          />
-        </Sheet.Frame>
-      </Sheet>
-    </>
+    <YStack f={1} boc="green" ai="center" jc="center" w="100%">
+      <YStack f={1} jc="center" als="center" p="$4" space boc={'yellow'} maw={500} w="100%">
+        <YStack space>
+          <H1 ta="center">Welcome</H1>
+          <Separator />
+          <Paragraph ta="center">Search for a team</Paragraph>
+          <Input value={searchQuery} onChangeText={setSearchQuery} miw={'$20'} />
+          <Separator />
+        </YStack>
+        <YStack f={1} space boc="red">
+          {loading ? (
+            <Spinner />
+          ) : (
+            Object.keys(searchResults).map((k) => {
+              const team = searchResults[k]
+              return (
+                <Button
+                  key={k}
+                  onPress={() => {
+                    push(`/${team.id}`)
+                  }}
+                >
+                  {team.team_name}
+                </Button>
+              )
+            })
+          )}
+        </YStack>
+        <YStack space>
+          <Separator />
+          <Paragraph ta="center">
+            Created by {` `}
+            <Anchor color="$color12" href="https://linkedin.com/in/ryan-ofarrell" target="_blank">
+              Ryan O'Farrell
+            </Anchor>
+          </Paragraph>
+        </YStack>
+      </YStack>
+    </YStack>
   )
 }
