@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import { HomeScreen } from '../../features/home/screen'
-import { TeamDetailScreen } from '../../features/team/detail-screen'
+import { TeamDetailScreen } from '../../features/team/screen'
 
 const Stack = createNativeStackNavigator<{
   home: undefined

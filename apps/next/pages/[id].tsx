@@ -1,3 +1,3 @@
-import { TeamDetailScreen } from 'app/features/team/detail-screen'
+import { TeamDetailScreen } from 'app/features/team/screen'
 
 export default TeamDetailScreen
