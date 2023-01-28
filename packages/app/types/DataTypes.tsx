@@ -1,14 +1,124 @@
 export interface Game {
-  id: string
+  date: string
+  game_key: string
+  opp_ast: number
+  opp_availor: number
+  opp_blk: number
+  opp_dr: number
+  opp_fga: number
+  opp_fga2: number
+  opp_fga3: number
+  opp_fgm: number
+  opp_fgm2: number
+  opp_fgm3: number
+  opp_fta: number
+  opp_ftm: number
+  opp_game: number
+  opp_loc: string
+  opp_loss: number
+  opp_margin: number
+  opp_mins: number
+  opp_or: number
+  opp_pf: number
+  opp_poss: number
+  opp_pts: number
+  opp_stl: number
+  opp_team_id: number
+  opp_to: number
+  opp_tr: number
+  opp_win: number
+  season: number
+  slug: string
+  tm_ast: number
+  tm_availor: number
+  tm_blk: number
+  tm_dr: number
+  tm_fga: number
+  tm_fga2: number
+  tm_fga3: number
+  tm_fgm: number
+  tm_fgm2: number
+  tm_fgm3: number
+  tm_fta: number
+  tm_ftm: number
+  tm_game: number
+  tm_loc: string
+  tm_loss: number
+  tm_margin: number
+  tm_mins: number
+  tm_or: number
+  tm_pf: number
+  tm_poss: number
+  tm_pts: number
+  tm_stl: number
+  tm_team_id: number
+  tm_to: number
+  tm_tr: number
+  tm_win: number
 }
 
 export const exampleGame: Game = {
-  id: '123',
+  date: '2020-01-01',
+  game_key: '123',
+  opp_ast: 0,
+  opp_availor: 0,
+  opp_blk: 0,
+  opp_dr: 0,
+  opp_fga: 0,
+  opp_fga2: 0,
+  opp_fga3: 0,
+  opp_fgm: 0,
+  opp_fgm2: 0,
+  opp_fgm3: 0,
+  opp_fta: 0,
+  opp_ftm: 0,
+  opp_game: 0,
+  opp_loc: 'home',
+  opp_loss: 0,
+  opp_margin: 0,
+  opp_mins: 0,
+  opp_or: 0,
+  opp_pf: 0,
+  opp_poss: 0,
+  opp_pts: 0,
+  opp_stl: 0,
+  opp_team_id: 0,
+  opp_to: 0,
+  opp_tr: 0,
+  opp_win: 0,
+  season: 2020,
+  slug: '123',
+  tm_ast: 0,
+  tm_availor: 0,
+  tm_blk: 0,
+  tm_dr: 0,
+  tm_fga: 0,
+  tm_fga2: 0,
+  tm_fga3: 0,
+  tm_fgm: 0,
+  tm_fgm2: 0,
+  tm_fgm3: 0,
+  tm_fta: 0,
+  tm_ftm: 0,
+  tm_game: 0,
+  tm_loc: 'home',
+  tm_loss: 0,
+  tm_margin: 0,
+  tm_mins: 0,
+  tm_or: 0,
+  tm_pf: 0,
+  tm_poss: 0,
+  tm_pts: 0,
+  tm_stl: 0,
+  tm_team_id: 0,
+  tm_to: 0,
+  tm_tr: 0,
+  tm_win: 0,
 }
 
 export interface SeasonTeam {
   id: string
-  team_id: string
+  team_id: number
   season: number
   season_team_id: string
   games: Array<Game>
@@ -16,7 +126,7 @@ export interface SeasonTeam {
 
 export const exampleSeasonTeam: SeasonTeam = {
   id: '123',
-  team_id: '123',
+  team_id: 123,
   season: 2020,
   season_team_id: '123',
   games: [exampleGame],

@@ -1,5 +1,4 @@
 const getType = (v: object) => {
-  console.log(v)
   if (Array.isArray(v)) {
     return 'array'
   } else if (v === null) {
@@ -26,13 +25,36 @@ const isType = (obj: object, exampleObj: object) => {
   for (let i = 0; i < objKeys.length; i++) {
     const objKey = objKeys[i]
     const exampleObjKey = exampleObjKeys[i]
+    if (typeof objKey === undefined) {
+      throw new Error('objKey is undefined')
+    }
+    if (typeof exampleObjKey === undefined) {
+      throw new Error('exampleObjKey is undefined')
+    }
+
     if (objKey !== exampleObjKey) {
       return false
     }
-    if (
-      getType(obj[objKey as keyof object]) !== getType(exampleObj[exampleObjKey as keyof object])
-    ) {
+    const val = obj[objKey as keyof object] as object
+    const exampleVal = exampleObj[exampleObjKey as keyof object] as object
+    if (getType(val) !== getType(exampleVal)) {
+      console.log('type mismatch on key ' + objKey + ', not same type')
+      console.log(`val: ${val}`)
+      console.log(`exampleVal: ${exampleVal}`)
+
       return false
+    }
+    const type = getType(val)
+    if (type === 'array') {
+      console.log('recursing due to array!')
+      const arrayExample = exampleVal[0]
+      // Recursively loop through
+      for (let j = 0; j < val.length; j++) {
+        const arrayVal = val[j]
+        if (!isType(arrayVal, arrayExample)) {
+          return false
+        }
+      }
     }
   }
   return true
