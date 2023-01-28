@@ -3,8 +3,10 @@ import { ChevronLeft } from '@tamagui/lucide-icons'
 import React, { useState, useEffect } from 'react'
 import { createParam } from 'solito'
 import { useLink } from 'solito/link'
-import { getRecordAsync } from '../../firebase/crud'
+import { getRecordAsync, getRecordsAsync } from '../../firebase/crud'
 import { Input, Spinner, H1 } from 'tamagui'
+import { where } from 'firebase/firestore'
+import { SeasonTeam, exampleSeasonTeam } from 'app/types'
 const { useParam } = createParam<{ id: string }>()
 
 export function TeamDetailScreen() {
@@ -12,15 +14,30 @@ export function TeamDetailScreen() {
 
   const linkProps = useLink({ href: '/' })
   const [team, setTeam] = useState(null)
+  const [seasonTeams, setSeasonTeams] = useState<SeasonTeam[] | null>(null)
   console.log(team)
 
   // Fetch team record from database using useEffect
   useEffect(() => {
     // Fetch team record from database
     // Set team record in state
+    // TODO store team in state?
     if (!id) return
-    getRecordAsync({ coll: 'teams', id }).then((r) => {
-      setTeam(r)
+    getRecordAsync({ coll: 'teams', id }).then((team) => {
+      getRecordsAsync<SeasonTeam>({
+        coll: 'season_teams',
+        q: [where('team_id', '==', team.team_id)],
+        exampleObj: exampleSeasonTeam,
+      }).then((seasonTeams) => {
+        if (seasonTeams.status !== 'success') {
+          console.log('errors!')
+          console.log(seasonTeams.errors)
+          return
+        }
+        console.log(seasonTeams.out)
+        setTeam(team)
+        setSeasonTeams(seasonTeams.out)
+      })
     })
   }, [id])
 
