@@ -1,4 +1,5 @@
 const getType = (v: object) => {
+  console.log(v)
   if (Array.isArray(v)) {
     return 'array'
   } else if (v === null) {
@@ -37,4 +38,6 @@ const isType = (obj: object, exampleObj: object) => {
   return true
 }
 
-export { isType }
+import { SeasonTeam, exampleSeasonTeam } from './DataTypes'
+
+export { isType, SeasonTeam, exampleSeasonTeam }
