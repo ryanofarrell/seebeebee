@@ -1,6 +1,7 @@
 export interface Game {
   date: string
   game_key: string
+  is_tourney: boolean
   opp_ast: number
   opp_availor: number
   opp_blk: number
@@ -60,6 +61,7 @@ export interface Game {
 export const exampleGame: Game = {
   date: '2020-01-01',
   game_key: '123',
+  is_tourney: false,
   opp_ast: 0,
   opp_availor: 0,
   opp_blk: 0,
@@ -116,18 +118,342 @@ export const exampleGame: Game = {
   tm_win: 0,
 }
 
+export interface TeamDate {
+  date: string
+  game: number
+  loss: number
+  mins: number
+  oa_opp_ast_pposs: number
+  oa_opp_astto_ratio: number
+  oa_opp_blk_pposs: number
+  oa_opp_dr_pposs: number
+  oa_opp_fg2_pct: number
+  oa_opp_fg3_pct: number
+  oa_opp_fg_pct: number
+  oa_opp_ft_pct: number
+  oa_opp_margin_pposs: number
+  oa_opp_or_pct: number
+  oa_opp_or_pposs: number
+  oa_opp_pf_pposs: number
+  oa_opp_pts_pposs: number
+  oa_opp_stl_pposs: number
+  oa_opp_to_pposs: number
+  oa_opp_tr_pposs: number
+  oa_opp_win_pct: number
+  oa_tm_ast_pposs: number
+  oa_tm_astto_ratio: number
+  oa_tm_blk_pposs: number
+  oa_tm_dr_pposs: number
+  oa_tm_fg2_pct: number
+  oa_tm_fg3_pct: number
+  oa_tm_fg_pct: number
+  oa_tm_ft_pct: number
+  oa_tm_margin_pposs: number
+  oa_tm_or_pct: number
+  oa_tm_or_pposs: number
+  oa_tm_pf_pposs: number
+  oa_tm_pts_pposs: number
+  oa_tm_stl_pposs: number
+  oa_tm_to_pposs: number
+  oa_tm_tr_pposs: number
+  oa_tm_win_pct: number
+  opp_ast_pposs: number
+  opp_astto_ratio: number
+  opp_blk_pposs: number
+  opp_dr_pposs: number
+  opp_fg2_pct: number
+  opp_fg3_pct: number
+  opp_fg_pct: number
+  opp_ft_pct: number
+  opp_margin_pposs: number
+  opp_or_pct: number
+  opp_or_pposs: number
+  opp_pf_pposs: number
+  opp_pts_pposs: number
+  opp_stl_pposs: number
+  opp_to_pposs: number
+  opp_tr_pposs: number
+  opp_win_pct: number
+  poss: number
+  rnk_oa_opp_ast_pposs: number
+  rnk_oa_opp_astto_ratio: number
+  rnk_oa_opp_blk_pposs: number
+  rnk_oa_opp_dr_pposs: number
+  rnk_oa_opp_fg2_pct: number
+  rnk_oa_opp_fg3_pct: number
+  rnk_oa_opp_fg_pct: number
+  rnk_oa_opp_ft_pct: number
+  rnk_oa_opp_margin_pposs: number
+  rnk_oa_opp_or_pct: number
+  rnk_oa_opp_or_pposs: number
+  rnk_oa_opp_pf_pposs: number
+  rnk_oa_opp_pts_pposs: number
+  rnk_oa_opp_stl_pposs: number
+  rnk_oa_opp_to_pposs: number
+  rnk_oa_opp_tr_pposs: number
+  rnk_oa_opp_win_pct: number
+  rnk_oa_tm_ast_pposs: number
+  rnk_oa_tm_astto_ratio: number
+  rnk_oa_tm_blk_pposs: number
+  rnk_oa_tm_dr_pposs: number
+  rnk_oa_tm_fg2_pct: number
+  rnk_oa_tm_fg3_pct: number
+  rnk_oa_tm_fg_pct: number
+  rnk_oa_tm_ft_pct: number
+  rnk_oa_tm_margin_pposs: number
+  rnk_oa_tm_or_pct: number
+  rnk_oa_tm_or_pposs: number
+  rnk_oa_tm_pf_pposs: number
+  rnk_oa_tm_pts_pposs: number
+  rnk_oa_tm_stl_pposs: number
+  rnk_oa_tm_to_pposs: number
+  rnk_oa_tm_tr_pposs: number
+  rnk_oa_tm_win_pct: number
+  rnk_opp_ast_pposs: number
+  rnk_opp_astto_ratio: number
+  rnk_opp_blk_pposs: number
+  rnk_opp_dr_pposs: number
+  rnk_opp_fg2_pct: number
+  rnk_opp_fg3_pct: number
+  rnk_opp_fg_pct: number
+  rnk_opp_ft_pct: number
+  rnk_opp_margin_pposs: number
+  rnk_opp_or_pct: number
+  rnk_opp_or_pposs: number
+  rnk_opp_pf_pposs: number
+  rnk_opp_pts_pposs: number
+  rnk_opp_stl_pposs: number
+  rnk_opp_to_pposs: number
+  rnk_opp_tr_pposs: number
+  rnk_opp_win_pct: number
+  rnk_tm_ast_pposs: number
+  rnk_tm_astto_ratio: number
+  rnk_tm_blk_pposs: number
+  rnk_tm_dr_pposs: number
+  rnk_tm_fg2_pct: number
+  rnk_tm_fg3_pct: number
+  rnk_tm_fg_pct: number
+  rnk_tm_ft_pct: number
+  rnk_tm_margin_pposs: number
+  rnk_tm_or_pct: number
+  rnk_tm_or_pposs: number
+  rnk_tm_pf_pposs: number
+  rnk_tm_pts_pposs: number
+  rnk_tm_stl_pposs: number
+  rnk_tm_to_pposs: number
+  rnk_tm_tr_pposs: number
+  rnk_tm_win_pct: number
+  season: number
+  slug: string
+  team_id: number
+  team_name: string
+  team_slug: string
+  tm_ast_pposs: number
+  tm_astto_ratio: number
+  tm_blk_pposs: number
+  tm_dr_pposs: number
+  tm_fg2_pct: number
+  tm_fg3_pct: number
+  tm_fg_pct: number
+  tm_ft_pct: number
+  tm_margin_pposs: number
+  tm_or_pct: number
+  tm_or_pposs: number
+  tm_pf_pposs: number
+  tm_pts_pposs: number
+  tm_stl_pposs: number
+  tm_to_pposs: number
+  tm_tr_pposs: number
+  tm_win_pct: number
+  win: number
+}
+
+export const exampleTeamDate: TeamDate = {
+  date: '2019-11-06',
+  game: 1,
+  loss: 0,
+  mins: 200,
+  oa_opp_ast_pposs: 0.5,
+  oa_opp_astto_ratio: 0.5,
+  oa_opp_blk_pposs: 0.5,
+  oa_opp_dr_pposs: 0.5,
+  oa_opp_fg2_pct: 0.5,
+  oa_opp_fg3_pct: 0.5,
+  oa_opp_fg_pct: 0.5,
+  oa_opp_ft_pct: 0.5,
+  oa_opp_margin_pposs: 0.5,
+  oa_opp_or_pct: 0.5,
+  oa_opp_or_pposs: 0.5,
+  oa_opp_pf_pposs: 0.5,
+  oa_opp_pts_pposs: 0.5,
+  oa_opp_stl_pposs: 0.5,
+  oa_opp_to_pposs: 0.5,
+  oa_opp_tr_pposs: 0.5,
+  oa_opp_win_pct: 0.5,
+  oa_tm_ast_pposs: 0.5,
+  oa_tm_astto_ratio: 0.5,
+  oa_tm_blk_pposs: 0.5,
+  oa_tm_dr_pposs: 0.5,
+  oa_tm_fg2_pct: 0.5,
+  oa_tm_fg3_pct: 0.5,
+  oa_tm_fg_pct: 0.5,
+  oa_tm_ft_pct: 0.5,
+  oa_tm_margin_pposs: 0.5,
+  oa_tm_or_pct: 0.5,
+  oa_tm_or_pposs: 0.5,
+  oa_tm_pf_pposs: 0.5,
+  oa_tm_pts_pposs: 0.5,
+  oa_tm_stl_pposs: 0.5,
+  oa_tm_to_pposs: 0.5,
+  oa_tm_tr_pposs: 0.5,
+  oa_tm_win_pct: 0.5,
+  opp_ast_pposs: 0.5,
+  opp_astto_ratio: 0.5,
+  opp_blk_pposs: 0.5,
+  opp_dr_pposs: 0.5,
+  opp_fg2_pct: 0.5,
+  opp_fg3_pct: 0.5,
+  opp_fg_pct: 0.5,
+  opp_ft_pct: 0.5,
+  opp_margin_pposs: 0.5,
+  opp_or_pct: 0.5,
+  opp_or_pposs: 0.5,
+  opp_pf_pposs: 0.5,
+  opp_pts_pposs: 0.5,
+  opp_stl_pposs: 0.5,
+  opp_to_pposs: 0.5,
+  opp_tr_pposs: 0.5,
+  opp_win_pct: 0.5,
+  poss: 100,
+  rnk_oa_opp_ast_pposs: 0.5,
+  rnk_oa_opp_astto_ratio: 0.5,
+  rnk_oa_opp_blk_pposs: 0.5,
+  rnk_oa_opp_dr_pposs: 0.5,
+  rnk_oa_opp_fg2_pct: 0.5,
+  rnk_oa_opp_fg3_pct: 0.5,
+  rnk_oa_opp_fg_pct: 0.5,
+  rnk_oa_opp_ft_pct: 0.5,
+  rnk_oa_opp_margin_pposs: 0.5,
+  rnk_oa_opp_or_pct: 0.5,
+  rnk_oa_opp_or_pposs: 0.5,
+  rnk_oa_opp_pf_pposs: 0.5,
+  rnk_oa_opp_pts_pposs: 0.5,
+  rnk_oa_opp_stl_pposs: 0.5,
+  rnk_oa_opp_to_pposs: 0.5,
+  rnk_oa_opp_tr_pposs: 0.5,
+  rnk_oa_opp_win_pct: 0.5,
+  rnk_oa_tm_ast_pposs: 0.5,
+  rnk_oa_tm_astto_ratio: 0.5,
+  rnk_oa_tm_blk_pposs: 0.5,
+  rnk_oa_tm_dr_pposs: 0.5,
+  rnk_oa_tm_fg2_pct: 0.5,
+  rnk_oa_tm_fg3_pct: 0.5,
+  rnk_oa_tm_fg_pct: 0.5,
+  rnk_oa_tm_ft_pct: 0.5,
+  rnk_oa_tm_margin_pposs: 0.5,
+  rnk_oa_tm_or_pct: 0.5,
+  rnk_oa_tm_or_pposs: 0.5,
+  rnk_oa_tm_pf_pposs: 0.5,
+  rnk_oa_tm_pts_pposs: 0.5,
+  rnk_oa_tm_stl_pposs: 0.5,
+  rnk_oa_tm_to_pposs: 0.5,
+  rnk_oa_tm_tr_pposs: 0.5,
+  rnk_oa_tm_win_pct: 0.5,
+  rnk_opp_ast_pposs: 0.5,
+  rnk_opp_astto_ratio: 0.5,
+  rnk_opp_blk_pposs: 0.5,
+  rnk_opp_dr_pposs: 0.5,
+  rnk_opp_fg2_pct: 0.5,
+  rnk_opp_fg3_pct: 0.5,
+  rnk_opp_fg_pct: 0.5,
+  rnk_opp_ft_pct: 0.5,
+  rnk_opp_margin_pposs: 0.5,
+  rnk_opp_or_pct: 0.5,
+  rnk_opp_or_pposs: 0.5,
+  rnk_opp_pf_pposs: 0.5,
+  rnk_opp_pts_pposs: 0.5,
+  rnk_opp_stl_pposs: 0.5,
+  rnk_opp_to_pposs: 0.5,
+  rnk_opp_tr_pposs: 0.5,
+  rnk_opp_win_pct: 0.5,
+  rnk_tm_ast_pposs: 0.5,
+  rnk_tm_astto_ratio: 0.5,
+  rnk_tm_blk_pposs: 0.5,
+  rnk_tm_dr_pposs: 0.5,
+  rnk_tm_fg2_pct: 0.5,
+  rnk_tm_fg3_pct: 0.5,
+  rnk_tm_fg_pct: 0.5,
+  rnk_tm_ft_pct: 0.5,
+  rnk_tm_margin_pposs: 0.5,
+  rnk_tm_or_pct: 0.5,
+  rnk_tm_or_pposs: 0.5,
+  rnk_tm_pf_pposs: 0.5,
+  rnk_tm_pts_pposs: 0.5,
+  rnk_tm_stl_pposs: 0.5,
+  rnk_tm_to_pposs: 0.5,
+  rnk_tm_tr_pposs: 0.5,
+  rnk_tm_win_pct: 0.5,
+  season: 0.5,
+  slug: 'test',
+  team_id: 0.5,
+  team_name: 'test',
+  team_slug: 'test',
+  tm_ast_pposs: 0.5,
+  tm_astto_ratio: 0.5,
+  tm_blk_pposs: 0.5,
+  tm_dr_pposs: 0.5,
+  tm_fg2_pct: 0.5,
+  tm_fg3_pct: 0.5,
+  tm_fg_pct: 0.5,
+  tm_ft_pct: 0.5,
+  tm_margin_pposs: 0.5,
+  tm_or_pct: 0.5,
+  tm_or_pposs: 0.5,
+  tm_pf_pposs: 0.5,
+  tm_pts_pposs: 0.5,
+  tm_stl_pposs: 0.5,
+  tm_to_pposs: 0.5,
+  tm_tr_pposs: 0.5,
+  tm_win_pct: 0.5,
+  win: 0.5,
+}
+
 export interface SeasonTeam {
   id: string
-  team_id: number
   season: number
-  season_team_id: string
   games: Array<Game>
+  dates: Array<object>
+  season_team_slug: string
+  slug: string
 }
 
 export const exampleSeasonTeam: SeasonTeam = {
   id: '123',
-  team_id: 123,
   season: 2020,
-  season_team_id: '123',
   games: [exampleGame],
+  dates: [exampleTeamDate],
+  season_team_slug: '123',
+  slug: '123',
+}
+
+export interface Team {
+  id: string
+  team_id: number
+  team_name: string
+  slug: string
+  first_d1_season: number
+  last_d1_season: number
+  lower_alpha: string
+  team_name_spellings: Array<string>
+}
+
+export const exampleTeam: Team = {
+  id: '123',
+  team_id: 123,
+  team_name: 'Team Name',
+  slug: 'team-name',
+  first_d1_season: 2020,
+  last_d1_season: 2020,
+  lower_alpha: 'teamname',
+  team_name_spellings: ['Team Name'],
 }
