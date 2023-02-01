@@ -6,7 +6,7 @@ import { useLink } from 'solito/link'
 import { getRecordAsync, getRecordsAsync } from '../../firebase/crud'
 import { Input, Spinner, H1 } from 'tamagui'
 import { where } from 'firebase/firestore'
-import { SeasonTeam, exampleSeasonTeam } from 'app/types'
+import { SeasonTeam, exampleSeasonTeam, Team, exampleTeam } from 'app/types'
 const { useParam } = createParam<{ id: string }>()
 
 export function TeamDetailScreen() {
@@ -15,7 +15,7 @@ export function TeamDetailScreen() {
   const linkProps = useLink({ href: '/' })
   const [team, setTeam] = useState(null)
   const [seasonTeams, setSeasonTeams] = useState<SeasonTeam[] | null>(null)
-  console.log(team)
+  console.log(id)
 
   // Fetch team record from database using useEffect
   useEffect(() => {
@@ -23,10 +23,11 @@ export function TeamDetailScreen() {
     // Set team record in state
     // TODO store team in state?
     if (!id) return
-    getRecordAsync({ coll: 'teams', id }).then((team) => {
+    getRecordAsync<Team>({ coll: 'teams', id, exampleObj: exampleTeam }).then((team) => {
+      if (!team) return
       getRecordsAsync<SeasonTeam>({
         coll: 'season_teams',
-        q: [where('team_id', '==', team.team_id)],
+        q: [where('slug', '==', team.slug)],
         exampleObj: exampleSeasonTeam,
       }).then((seasonTeams) => {
         if (seasonTeams.status !== 'success') {
